@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://qlm12ylvc5ha"]
+
+[ext_resource type="PackedScene" uid="uid://d2teq5go21gpr" path="res://player.tscn" id="1_csl2r"]
+[ext_resource type="ArrayMesh" uid="uid://dgn8dvejkgsfh" path="res://Models/Entry Hall A/Lev_Tut1.obj" id="3_wi20u"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jkxec"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_jbl5d"]
+sky_material = SubResource("ProceduralSkyMaterial_jkxec")
+
+[sub_resource type="Environment" id="Environment_13m0j"]
+background_mode = 2
+sky = SubResource("Sky_jbl5d")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Test" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_13m0j")
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("1_csl2r")]
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(0.025, 0, 0, 0, 0.025, 0, 0, 0, 0.025, 0, 0, 0)
+calculate_tangents = false
+use_collision = true
+mesh = ExtResource("3_wi20u")

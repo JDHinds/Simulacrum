@@ -1,0 +1,4 @@
+res://Scenes/world.tscn
+res://Shaders/outline.gdshader
+res://Scenes/clipmap.gdshader
+res://clipmap.tscn

@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://d2teq5go21gpr"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_fpmg2"]
+[ext_resource type="Shader" path="res://Shaders/outline.gdshader" id="2_n4blh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7pb4o"]
+height = 2.09088
+
+[sub_resource type="QuadMesh" id="QuadMesh_7kxx6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lhdvw"]
+render_priority = 0
+shader = ExtResource("2_n4blh")
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/shadow_thickness = 2.0
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -88.8499, -14.7225, 95.425)
+script = ExtResource("1_fpmg2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_7pb4o")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.920027, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0929519)
+mesh = SubResource("QuadMesh_7kxx6")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_lhdvw")
