@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://dp8eabxllav8n"]
+
+[ext_resource type="Shader" path="res://Shaders/clipmap.gdshader" id="1_ralm2"]
+[ext_resource type="Script" path="res://Scripts/Clipmap/ClipMapPartition.gd" id="2_237v2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dyg6l"]
+render_priority = 0
+shader = ExtResource("1_ralm2")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ltrmu"]
+size = Vector2(32, 32)
+
+[node name="Partition" type="MeshInstance3D"]
+material_override = SubResource("ShaderMaterial_dyg6l")
+extra_cull_margin = 20.0
+mesh = SubResource("PlaneMesh_ltrmu")
+skeleton = NodePath("../..")
+script = ExtResource("2_237v2")

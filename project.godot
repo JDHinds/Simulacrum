@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="The Simulacrum"
-run/main_scene="res://Scenes/test.tscn"
+run/main_scene="res://Scenes/world.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://Textures/icon.png"
+
+[autoload]
+
+Heightmap="*res://Scripts/Clipmap/HeightMap.gd"
 
 [display]
 
@@ -87,13 +91,21 @@ SpellRight={
 
 heightmap={
 "type": "sampler2D",
-"value": ""
-}
-normalmap={
-"type": "sampler2D",
-"value": ""
+"value": "res://Textures/noise_texture_0004.png"
 }
 worldamplitude={
 "type": "float",
-"value": 8.0
+"value": 16.0
+}
+partitionlength={
+"type": "float",
+"value": 32.0
+}
+clipmapposition={
+"type": "vec3",
+"value": Vector3(0, 0, 0)
+}
+lodstep={
+"type": "float",
+"value": 1.0
 }

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://blw4ixtwynw8w"]
+
+[ext_resource type="Script" path="res://Scripts/Clipmap/ClipMap.gd" id="1_7qrxm"]
+
+[node name="ClipMap" type="Node3D"]
+script = ExtResource("1_7qrxm")
+distance = 5

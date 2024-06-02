@@ -14,8 +14,7 @@ shader = ExtResource("2_n4blh")
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
 shader_parameter/shadow_thickness = 2.0
 
-[node name="CharacterBody3D" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -88.8499, -14.7225, 95.425)
+[node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_fpmg2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -28,6 +27,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.920027, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0929519)
+visible = false
 mesh = SubResource("QuadMesh_7kxx6")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_lhdvw")

@@ -1,16 +1,23 @@
 extends CharacterBody3D
 
 const SENSITIVITY = 0.01
-const CROUCH_SPEED = 2
+const ANIM_SPEED = 10
+
+const CROUCH_SPEED = 2.0
 const WALK_SPEED = 5.0
-const SPRINT_SPEED = 8
-const WALK_HEIGHT = 1.8
-const CROUCH_HEIGHT_REDUCTION = 1.2
+const SPRINT_SPEED = 8.0
+
+const EYE_HEIGHT = 0.5
+const COLLIDER_HEIGHT = 4.5
+const CROUCH_HEIGHT_REDUCTION = 0.9
+
 const JUMP_VELOCITY = 4.5
-const GROUND_CONTROL = 10
-const AIR_CONTROL = 3
-const FOV = 90
-const FOV_SPRINT = 15
+const GROUND_CONTROL = 10.0
+const AIR_CONTROL = 3.0
+
+const FOV = 75.0
+const FOV_SPRINT = 90.0
+
 const BOB_FREQ = 2
 const BOB_AMP = .08
 
@@ -31,10 +38,6 @@ func _unhandled_input(event):
 		Head.rotate_y(-event.relative.x * SENSITIVITY)
 		Camera.rotate_x(-event.relative.y * SENSITIVITY)
 		Camera.rotation.x = clamp(Camera.rotation.x, -1.5, 1.5)
-		
-func _process(delta: float) -> void:
-	var spell = Spell.new()
-	spell.damageType = spell.spellDamageType
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -42,20 +45,21 @@ func _physics_process(delta):
 		velocity.y -= gravity * delta
 
 	# Handle Jump.
-	if Input.is_action_just_pressed("Jump") and is_on_floor():
+	if Input.is_action_just_pressed("Jump"): #and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		
-	if Input.is_action_pressed("Crouch"):
-		speed = CROUCH_SPEED
-	elif Input.is_action_pressed("Sprint"):
-		speed = SPRINT_SPEED
+	if Input.is_action_pressed("Sprint") && Input.is_action_pressed("Forward"):
+		SprintFOVSetup(delta)
+	elif Input.is_action_pressed("Crouch"):
+		CrouchFOVSetup(delta)
 	else:
-		speed = WALK_SPEED
+		WalkFOVSetup(delta)
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir = Input.get_vector("Left", "Right", "Forward", "Back")
 	var direction = (Head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
 	if direction and is_on_floor():
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
@@ -66,11 +70,21 @@ func _physics_process(delta):
 	else:
 		velocity.x = lerp(velocity.x, direction.x * speed, delta * AIR_CONTROL)
 		velocity.z = lerp(velocity.z, direction.z * speed, delta * AIR_CONTROL)
-		
-	t_bob += delta * velocity.length() * int(is_on_floor())
 	
-	Head.transform.origin.y = lerp(Head.transform.origin.y, WALK_HEIGHT - CROUCH_HEIGHT_REDUCTION * float(speed == CROUCH_SPEED), delta * 8)
+	t_bob += delta * velocity.length() * int(is_on_floor()) * int(!is_on_wall())
 	Camera.transform.origin = Vector3(cos(t_bob * BOB_FREQ /2) * BOB_AMP, sin(t_bob * BOB_FREQ) * BOB_AMP, 0)
-	Camera.fov = lerp(Camera.fov, FOV + FOV_SPRINT * float(speed == SPRINT_SPEED && input_dir != Vector2.ZERO), delta * 8)
 
 	move_and_slide()
+	
+func SprintFOVSetup(delta):
+	speed = SPRINT_SPEED
+	Head.transform.origin.y = lerp(Head.transform.origin.y, EYE_HEIGHT, delta * ANIM_SPEED)
+	Camera.fov = lerp(Camera.fov, FOV_SPRINT, delta * ANIM_SPEED)
+func CrouchFOVSetup(delta):
+	speed = CROUCH_SPEED
+	Head.transform.origin.y = lerp(Head.transform.origin.y, EYE_HEIGHT - CROUCH_HEIGHT_REDUCTION, delta * ANIM_SPEED)
+	Camera.fov = lerp(Camera.fov, FOV, delta * ANIM_SPEED)
+func WalkFOVSetup(delta):
+	speed = WALK_SPEED
+	Head.transform.origin.y = lerp(Head.transform.origin.y, EYE_HEIGHT, delta * ANIM_SPEED)
+	Camera.fov = lerp(Camera.fov, FOV, delta * ANIM_SPEED)
