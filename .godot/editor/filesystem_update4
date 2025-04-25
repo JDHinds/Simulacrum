@@ -1,6 +1,0 @@
-res://Scenes/ClipMap/ClipMapPartition.tscn
-res://Shaders/outline.gdshader
-res://Shaders/grain.gdshader
-res://Shaders/grass.gdshader
-res://Shaders/clipmap.gdshader
-res://Scripts/Clipmap/ClipMapPartition.gd

@@ -1,0 +1,4 @@
+{
+    "name": "Godot",
+    "postCreateCommand": "./.devcontainer/start.sh"
+}
